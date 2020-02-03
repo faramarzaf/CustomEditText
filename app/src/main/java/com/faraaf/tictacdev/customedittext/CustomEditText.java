@@ -20,7 +20,12 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.RequiresApi;
 
+/**
+ * @author Faramarz Afzali
+ * @since Feb 2, 2019
+ */
 public class CustomEditText extends LinearLayout {
+
 
     private View rootView;
     private TypedArray typedArray;

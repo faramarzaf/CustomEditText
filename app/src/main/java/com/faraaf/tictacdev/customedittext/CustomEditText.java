@@ -148,7 +148,7 @@ public class CustomEditText extends LinearLayout {
         checkNullSet(set);
         typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
         textSize = typedArray.getDimension(R.styleable.CustomEditText_textSize, 18f);
-        mainEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        mainEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
     }
 
     private void setFont(Context ctx, AttributeSet attrs) {

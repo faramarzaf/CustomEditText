@@ -52,7 +52,7 @@ public class CustomEditText extends LinearLayout {
         setIconResource(attrs);
         setBackgroundIconColor(attrs);
         setTextSize(attrs);
-        prepareFont(context,attrs);
+        setFont(context,attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -66,7 +66,7 @@ public class CustomEditText extends LinearLayout {
         setIconResource(attrs);
         setBackgroundIconColor(attrs);
         setTextSize(attrs);
-        prepareFont(context, attrs);
+        setFont(context, attrs);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -151,7 +151,7 @@ public class CustomEditText extends LinearLayout {
         mainEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
     }
 
-    private void prepareFont(Context ctx, AttributeSet attrs) {
+    private void setFont(Context ctx, AttributeSet attrs) {
         checkNullSet(attrs);
         typedArray = ctx.obtainStyledAttributes(attrs, R.styleable.CustomEditText);
         fontFamily = typedArray.getString(R.styleable.CustomEditText_customFontFamily);

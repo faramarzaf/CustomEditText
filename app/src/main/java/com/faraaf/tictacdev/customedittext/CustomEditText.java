@@ -182,4 +182,11 @@ public class CustomEditText extends LinearLayout {
         }
     }
 
+    public String getText() {
+        return mainEditText.getText().toString();
+    }
+
+    public int getLength() {
+        return mainEditText.length();
+    }
 }

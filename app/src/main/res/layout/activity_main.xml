@@ -16,6 +16,6 @@
         app:hint="Phone number..."
         app:inputType="phone_number"
         app:srcIconEditText="@drawable/ic_phone"
-        app:textSize="15sp" />
+        />
 
 </LinearLayout>

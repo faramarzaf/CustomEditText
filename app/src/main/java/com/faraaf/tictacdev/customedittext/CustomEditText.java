@@ -189,4 +189,9 @@ public class CustomEditText extends LinearLayout {
     public int getLength() {
         return mainEditText.length();
     }
+
+    public void setText(String text){
+        mainEditText.setText(text);
+    }
+
 }

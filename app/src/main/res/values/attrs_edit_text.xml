@@ -2,7 +2,7 @@
 <resources>
 
 
-    <declare-styleable name="CustomEditText">
+    <declare-styleable name="FastEditText">
 
         <attr name="hint" format="string" />
         <attr name="defaultText" format="string" />
@@ -12,7 +12,7 @@
         <attr name="textSize" format="dimension" />
 
         <attr name="customFontFamily" format="string" />
-
+        <attr name="maxLength" format="integer" />
 
         <attr name="inputType">
             <enum name="text" value="0" />

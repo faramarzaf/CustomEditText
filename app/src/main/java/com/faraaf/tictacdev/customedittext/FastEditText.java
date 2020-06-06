@@ -9,7 +9,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -24,7 +27,7 @@ import androidx.annotation.RequiresApi;
  * @author Faramarz Afzali
  * @since Feb 2, 2019
  */
-public class CustomEditText extends LinearLayout {
+public class FastEditText extends LinearLayout {
 
 
     private View rootView;
@@ -34,6 +37,7 @@ public class CustomEditText extends LinearLayout {
     private Drawable srcIcon;
     private int defaultTextColor;
     private int inputType;
+    private int maxLength;
     private int backgroundIconColor;
     private float textSize;
     private String hint;
@@ -41,13 +45,13 @@ public class CustomEditText extends LinearLayout {
     private String fontFamily;
 
 
-    public CustomEditText(Context context) {
+    public FastEditText(Context context) {
         super(context);
         init(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public CustomEditText(Context context, AttributeSet attrs) {
+    public FastEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
         setHint(attrs);
@@ -57,11 +61,12 @@ public class CustomEditText extends LinearLayout {
         setIconResource(attrs);
         setBackgroundIconColor(attrs);
         setTextSize(attrs);
-        setFont(context,attrs);
+        setFont(context, attrs);
+        setMaxLength(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CustomEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FastEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
         setHint(attrs);
@@ -72,6 +77,7 @@ public class CustomEditText extends LinearLayout {
         setBackgroundIconColor(attrs);
         setTextSize(attrs);
         setFont(context, attrs);
+        setMaxLength(context, attrs);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -84,16 +90,16 @@ public class CustomEditText extends LinearLayout {
 
     private void setHint(AttributeSet set) {
         checkNullSet(set);
-        typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
-        hint = typedArray.getString(R.styleable.CustomEditText_hint);
+        typedArray = getContext().obtainStyledAttributes(set, R.styleable.FastEditText);
+        hint = typedArray.getString(R.styleable.FastEditText_hint);
         mainEditText.setHint(hint);
         typedArray.recycle();
     }
 
     private void setDefaultText(AttributeSet set) {
         checkNullSet(set);
-        typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
-        defaultText = typedArray.getString(R.styleable.CustomEditText_defaultText);
+        typedArray = getContext().obtainStyledAttributes(set, R.styleable.FastEditText);
+        defaultText = typedArray.getString(R.styleable.FastEditText_defaultText);
         mainEditText.setText(defaultText);
         typedArray.recycle();
     }
@@ -101,8 +107,8 @@ public class CustomEditText extends LinearLayout {
 
     private void setInputType(AttributeSet set) {
         checkNullSet(set);
-        typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
-        inputType = typedArray.getInt(R.styleable.CustomEditText_inputType, 0);
+        typedArray = getContext().obtainStyledAttributes(set, R.styleable.FastEditText);
+        inputType = typedArray.getInt(R.styleable.FastEditText_inputType, 0);
         switch (inputType) {
             case 0:
                 mainEditText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -126,16 +132,16 @@ public class CustomEditText extends LinearLayout {
 
     private void setDefaultTextColor(AttributeSet set) {
         checkNullSet(set);
-        typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
-        defaultTextColor = typedArray.getInt(R.styleable.CustomEditText_defaultTextColor, Color.BLACK);
+        typedArray = getContext().obtainStyledAttributes(set, R.styleable.FastEditText);
+        defaultTextColor = typedArray.getInt(R.styleable.FastEditText_defaultTextColor, Color.BLACK);
         mainEditText.setTextColor(defaultTextColor);
         typedArray.recycle();
     }
 
     private void setIconResource(AttributeSet set) {
         checkNullSet(set);
-        typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
-        srcIcon = typedArray.getDrawable(R.styleable.CustomEditText_srcIconEditText);
+        typedArray = getContext().obtainStyledAttributes(set, R.styleable.FastEditText);
+        srcIcon = typedArray.getDrawable(R.styleable.FastEditText_srcIconEditText);
         editTextIcon.setImageDrawable(srcIcon);
     }
 
@@ -143,24 +149,32 @@ public class CustomEditText extends LinearLayout {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setBackgroundIconColor(AttributeSet set) {
         checkNullSet(set);
-        typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
-        backgroundIconColor = typedArray.getColor(R.styleable.CustomEditText_backgroundIconColor, Color.GRAY);
+        typedArray = getContext().obtainStyledAttributes(set, R.styleable.FastEditText);
+        backgroundIconColor = typedArray.getColor(R.styleable.FastEditText_backgroundIconColor, Color.GRAY);
         editTextIcon.setBackgroundTintList(ColorStateList.valueOf(backgroundIconColor));
     }
 
 
     private void setTextSize(AttributeSet set) {
         checkNullSet(set);
-        typedArray = getContext().obtainStyledAttributes(set, R.styleable.CustomEditText);
-        textSize = typedArray.getDimension(R.styleable.CustomEditText_textSize, 18f);
+        typedArray = getContext().obtainStyledAttributes(set, R.styleable.FastEditText);
+        textSize = typedArray.getDimension(R.styleable.FastEditText_textSize, 18f);
         mainEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
     }
 
     private void setFont(Context ctx, AttributeSet attrs) {
         checkNullSet(attrs);
-        typedArray = ctx.obtainStyledAttributes(attrs, R.styleable.CustomEditText);
-        fontFamily = typedArray.getString(R.styleable.CustomEditText_customFontFamily);
+        typedArray = ctx.obtainStyledAttributes(attrs, R.styleable.FastEditText);
+        fontFamily = typedArray.getString(R.styleable.FastEditText_customFontFamily);
         prepareFont(ctx, fontFamily);
+        typedArray.recycle();
+    }
+
+    private void setMaxLength(Context ctx, AttributeSet attrs) {
+        checkNullSet(attrs);
+        typedArray = ctx.obtainStyledAttributes(attrs, R.styleable.FastEditText);
+        maxLength = typedArray.getInteger(R.styleable.FastEditText_maxLength, Integer.MAX_VALUE);
+        setMaxLength(maxLength);
         typedArray.recycle();
     }
 
@@ -190,8 +204,35 @@ public class CustomEditText extends LinearLayout {
         return mainEditText.length();
     }
 
-    public void setText(String text){
+    public void setText(String text) {
         mainEditText.setText(text);
+    }
+
+    private void setMaxLength(final int maxLength) {
+        mainEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int lent = mainEditText.length();
+                if (lent >= maxLength) {
+                    blockTextView(maxLength);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+
+    private void blockTextView(int maxLength) {
+        InputFilter[] filterArray = new InputFilter[1];
+        filterArray[0] = new InputFilter.LengthFilter(maxLength);
+        mainEditText.setFilters(filterArray);
     }
 
 }

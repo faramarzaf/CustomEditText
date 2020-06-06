@@ -9,13 +9,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.faraaf.tictacdev.customedittext.CustomEditText
+    <com.faraaf.tictacdev.customedittext.FastEditText
+        android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundIconColor="#EEFFB100"
+        android:background="@drawable/bg_custom_edittext"
         app:hint="Phone number..."
         app:inputType="phone_number"
         app:srcIconEditText="@drawable/ic_phone"
+        app:maxLength="10"
         />
 
 </LinearLayout>

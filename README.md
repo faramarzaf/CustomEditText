@@ -33,3 +33,10 @@ allprojects {
         />
 
 ```
+**Notice:**
+```xml
+ android:background="@drawable/bg_custom_edittext"
+```
+This is in Library background for editText. If you don't want this, choose your favorite background instead :)
+      
+      

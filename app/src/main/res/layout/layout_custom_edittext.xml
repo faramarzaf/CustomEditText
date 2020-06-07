@@ -17,7 +17,7 @@
             android:layout_margin="8dp"
             android:background="@drawable/bg_icon_edit_text"
             android:padding="8dp"
-            android:src="@drawable/ic_phone" />
+            />
 
         <EditText
             android:id="@+id/mainEditText"

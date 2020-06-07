@@ -17,7 +17,7 @@
         android:background="@drawable/bg_custom_edittext"
         app:hint="Phone number..."
         app:inputType="phone_number"
-        app:srcIconEditText="@drawable/ic_phone"
+        app:srcIconEditText="@drawable/ic_launcher_foreground"
         app:maxLength="10"
         />
 

@@ -11,7 +11,7 @@ allprojects {
   
   ```gradle
  dependencies {
-	        implementation 'com.github.faramarzaf:CustomEditText:v1.0.1'
+	      implementation 'com.github.faramarzaf:CustomEditText:v1.0.3'
 	}
   ```
 
